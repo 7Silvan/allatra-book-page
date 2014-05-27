@@ -1,0 +1,617 @@
+
+                    topadvertCallbacks["U41iDQGceD"]({
+                        process: function(adapter, api) {
+                            var topadvert_feed = { advs: [ { num: 1, name: "setbook.net", items: [ { adv_host: "setbook.net", cost_str: "&euro;9.49", topic_id: 10, currency: "EUR", yml_year: 2008, image_height: 70, yml_series: "", yml_description: "", yml_url: "http://www.setbook.net/books/4308.html", yml_image: "http://149.126.96.163/thumbs/004/30/1459895301.jpg", url: "http://feed.topadvert.ru/tds?key=U2FsdGVkX18VNSoeLCEE7nL-tsArni0ld1Ez6jFnw27jvBR4Qp4ozvBQI3Dw08Hv8p4wL669fnLq6Hta1NHjC12RTiyO0CPDOrywY6lQYvg", ppc: 0.50, yml_id: 4308, cost: 9.49, images: { max_size: { width: 76, url: "http://image.topadvert.ru/17/65/148555671-2-basic.gif", height: 105 } }, yml_isbn: "978-5-17-052707-6", is_image: 1, adv_favicon: "http://image.topadvert.ru/favicon/4031.png", view_normalized_cost: 465.997909, image_width: 50, shop_name: "setbook.net", description: "Семен Альтов", image: "http://image.topadvert.ru/17/65/148555671-1-small.gif", yml_publisher: "АСТ", cost_text: "<a>Купить в setbook.net</a> за&nbsp;<b>&euro;9.49</b>", yml_part: "", yml_author: "Семен Альтов", yml_name: "Только хиты", type: 3, title: "Только хиты" } ] } ], ref_url: "http://www.topadvert.ru/?ref_id=4773" };
+var topadvert_params = {adv_limit:1,alt_text:"",category:null,feed_id:6597,format:"where_to_buy",has_image:0,is_available:0,is_partner:0,item_id:null,item_page_limit:10,item_page_this:1,limit:10,pattern_id:3126,query:null,search:"ТА_альт",sub_id:null,title:""};
+
+                            var topadvert_loader_domain = 'loader.topadvert.ru';
+
+                            function topadvert_draw( topadvert_feed, topadvert_params ){
+  var s = null;
+  if( topadvert_params.book_name.book_name!="undefined" && topadvert_feed != null && topadvert_feed['advs'] != null && topadvert_feed['advs'].length > 0 ){
+    s = '<div style="margin-bottom: 5px; font-weight: bold;">Купить "' + topadvert_params.book_name + '" в интернет магазине:</div>';
+    var i;
+    for(i = 0; i < topadvert_feed['advs'].length-1; i++ ){
+      var adv = topadvert_feed['advs'][i];
+      var item = adv.items[0];
+      s += '<span style="margin-top: 4px"><a target="_blank" href="' + item['url'] + '">«' + adv['name'] + '» &ndash; ' + item['cost_str'] + '</a>, </span>';
+    }
+      var adv = topadvert_feed['advs'][i++];
+      var item = adv.items[0];
+      s += '<span style="margin-top: 4px"><a target="_blank" href="' + item['url'] + '">«' + adv['name'] + '» &ndash; ' + item['cost_str'] + '</a></span>';
+
+  }
+  return s;
+}
+
+                            //var topadvert_draw;
+//var adapter;
+//var topadvert_feed;
+//var topadvert_params;
+(function () {
+    if (adapter.getLoadEvent() === 'page_load') {
+        handleDiv();
+    } else if (adapter.getLoadEvent() === 'mouse_action') {
+        handleEvent(false);
+    } else if (adapter.getLoadEvent() === 'old_mouse_action') {
+        handleEvent(true);
+    }
+
+    function handleDiv () {
+        function topadvert_get_random_id(){
+            return ('topadvert_' + Math.random()).replace( /0?\./g, '' );
+        }
+    
+        function topadvert_get_div (textarea) {
+            var div = null;
+            var elem = textarea;
+            var is_up = false;
+            var iterations = 10;
+            while (iterations > 0 && div == null && elem != null) {
+                iterations--;
+                if (is_up) {
+                    elem = elem.parentNode;
+                    is_up = false;
+                    continue;
+                }
+                if (elem.nextSibling == null) {
+                    is_up = true;
+                    continue;
+                }
+                elem = elem.nextSibling;
+                if (elem.nodeType == 1) {
+                    is_up = true;
+                    var tag_name = elem.tagName.toLowerCase();
+                    if( tag_name == 'div' ){
+                        if (div == null && /topadvert_div/.test(elem.className)) {
+                            div = elem;
+                            is_up = false;
+                        }
+                    }
+                }
+            }
+            if( div != null ){
+                var div_id = div.id;
+                if( div_id == null || div_id == '' ){
+                    div_id = topadvert_get_random_id();
+                    div.id = div_id;
+                }
+            }
+            return div;
+        }
+
+        function topadvert_create_div_by_elem(elem) {
+            if (elem == null) {
+                return null;
+            }
+            var elemParent = elem.parentNode;
+            if (elemParent == null) {
+                return null;
+            }
+            var div = document.createElement('div');
+            elemParent.insertBefore(div, elem);
+            return div;
+        }
+
+        var div;
+        if (adapter.getDivId()) {
+            div = document.getElementById(adapter.getDivId());
+        } else if (adapter.getCodeElement()) {
+            div = topadvert_get_div(adapter.getCodeElement());
+        }
+        if (div == null) {
+            div = topadvert_create_div_by_elem(adapter.getCodeElement());
+        }
+        if (div) {
+            var div_id = div.id;
+            if (!div_id) {
+                div_id = topadvert_get_random_id();
+                div.id = div_id;
+            }
+            topadvert_params['div_id'] = div_id;
+            var html = topadvert_draw(topadvert_feed, topadvert_params);
+            if (html != undefined) {
+                div.innerHTML = html;
+                div.style.display = 'block';
+            }
+        }
+    }
+
+    function handleEvent (isOld) {
+        function TopadvertHtmlElement( name ){
+            this.name = name;
+            this.attributes = {};
+            this.styles = {};
+            this.childs = [];
+            this.class_name = '';
+            this.set_attribute = function( name, value ){
+                this.attributes[name] = value;
+            };
+            this.set_style = function( name, value ){
+                this.styles[name] = value;
+            };
+            this.set_style_sides = function( name_prefix, name_postfix, value ){
+                var prefix = name_prefix + '-';
+                var postfix = name_postfix ? '-' + name_postfix : '';
+                this.styles[prefix + 'top' + postfix] = value;
+                this.styles[prefix + 'right' + postfix] = value;
+                this.styles[prefix + 'bottom' + postfix] = value;
+                this.styles[prefix + 'left' + postfix] = value;
+            };
+            this.set_class_name = function( class_name ){
+                this.class_name = class_name;
+            };
+            this.append_child = function( child ){
+                this.childs.push( child );
+            };
+            this.append_text = function( text ){
+                this.childs.push( new TopadvertHtmlText( text ) );
+            };
+            this.to_string = function(){
+                var s = '';
+                s += '<' + this.name;
+                for( var k in this.attributes ){
+                    s += ' ' + k + '="' + this.attributes[k] + '"';
+                }
+                if( this.class_name ){
+                    s += ' class="' + this.class_name + '"';
+                }
+                s += ' style="' + this._get_style_str() + '">';
+                s += this._get_inner_html();
+                s += '</' + this.name + '>';
+                return s;
+            };
+            this.to_document_element = function(){
+                var e = document.createElement( this.name );
+                for( var k in this.attributes ){
+                    var value = this.attributes[k];
+                    if( /^on/.test( k ) ){
+                        e[k] = new Function( value );
+                    } else {
+                        e[k] = value;
+                    }
+                }
+                var style = e.style;
+                for( var k in this.styles ){
+                    var k_style = '';
+                    var arr = k.split( '-' );
+                    for( var i = 0; i < arr.length; i++ ){
+                        k_style += i ? arr[i].substring( 0, 1 ).toUpperCase() + arr[i].substring( 1 ) : arr[i];
+                    }
+                    style[k_style] = this.styles[k];
+                }
+                var inner_html = this._get_inner_html();
+                if( inner_html ){
+                    e.innerHTML = inner_html;
+                }
+                return e;
+            };
+            this._get_style_str = function(){
+                var style_str = '';
+                for( var k in this.styles ){
+                    style_str += k + ':' + this.styles[k] + ';';
+                }
+                return style_str;
+            };
+            this._get_inner_html = function(){
+                var inner_html = '';
+                for( var i = 0; i < this.childs.length; i++ ){
+                    inner_html += this.childs[i].to_string();
+                }
+                return inner_html;
+            };
+        }
+        
+        function TopadvertHtmlText( text ){
+            this.text = text;
+            this.to_string = function(){
+                return this.text;
+            };
+        }
+        
+        function topadvert_create_div(){
+            var d = new TopadvertHtmlElement( 'div' );
+            d.set_style( 'display', 'block' );
+            d.set_style( 'visibility', 'visible' );
+            d.set_style_sides( 'margin', '', '0' );
+            d.set_style( 'text-align', 'left' );
+            d.set_style_sides( 'border', 'style', 'solid' );
+            d.set_style_sides( 'border', 'width', '0' );
+            d.set_style( 'vertical-align', 'top' );
+            d.set_style( 'white-space', 'normal' );
+            d.set_style( 'clear', 'none' );
+            d.set_style( 'float', 'none' );
+            d.set_style( 'width', '' );
+            d.set_style( 'height', '' );
+            return d;
+        }
+        
+        function topadvert_create_table(){
+            var t = new TopadvertHtmlElement( 'table' );
+            t.set_style( 'visibility', 'visible' );
+            t.set_style( 'border-collapse', 'separate' );
+            t.set_style( 'border-spacing', '0' );
+            t.set_attribute( 'cellpadding', '0' );
+            t.set_attribute( 'cellspacing', '0' );
+            t.set_style_sides( 'margin', '', '0' );
+            t.set_style_sides( 'padding', '', '0' );
+            t.set_style_sides( 'border', 'style', 'solid' );
+            t.set_style_sides( 'border', 'width', '0' );
+            t.set_style( 'clear', 'none' );
+            return t;
+        }
+        
+        function topadvert_create_tr(){
+            var tr = new TopadvertHtmlElement( 'tr' );
+            tr.set_style( 'visibility', 'visible' );
+            tr.set_attribute( 'valign', 'top' );
+            tr.set_style_sides( 'margin', '', '0' );
+            tr.set_style_sides( 'padding', '', '0' );
+            tr.set_style_sides( 'border', 'style', 'solid' );
+            tr.set_style_sides( 'border', 'width', '0' );
+            tr.set_style( 'clear', 'none' );
+            return tr;
+        }
+        
+        function topadvert_create_td(){
+            var td = new TopadvertHtmlElement( 'td' );
+            td.set_style( 'visibility', 'visible' );
+            td.set_style_sides( 'margin', '', '0' );
+            td.set_style_sides( 'padding', '', '0' );
+            td.set_style_sides( 'border', 'style', 'solid' );
+            td.set_style_sides( 'border', 'width', '0' );
+            td.set_style( 'text-align', 'left' );
+            td.set_style( 'vertical-align', 'top' );
+            td.set_style( 'clear', 'none' );
+            return td;
+        }
+        
+        function topadvert_create_a(){
+            var a = new TopadvertHtmlElement( 'a' );
+            a.set_style( 'visibility', 'visible' );
+            a.set_style_sides( 'margin', '', '0' );
+            a.set_style_sides( 'padding', '', '0' );
+            a.set_attribute( 'target', '_blank' );
+            a.set_style( 'text-decoration', 'underline' );
+            return a;
+        }
+        
+        function topadvert_create_img(){
+            var img = new TopadvertHtmlElement( 'img' );
+            img.set_style( 'visibility', 'visible' );
+            img.set_style( 'float', 'none' );
+            img.set_style_sides( 'margin', '', '0' );
+            img.set_style_sides( 'padding', '', '0' );
+            img.set_attribute( 'hspace', '0' );
+            img.set_attribute( 'vspace', '0' );
+            img.set_style_sides( 'border', 'width', '0' );
+            return img;
+        }
+        
+        function topadvert_create_span(){
+            var s = new TopadvertHtmlElement( 'span' );
+            s.set_style( 'visibility', 'visible' );
+            return s;
+        }
+        
+        function topadvert_create_1x1_img(){
+            var img = topadvert_create_img();
+            img.set_attribute( 'width', '1' );
+            img.set_attribute( 'height', '1' );
+            img.set_attribute( 'src', 'http://' + topadvert_loader_domain + '/1x1.gif' );
+            return img;
+        }
+
+        var is_inited = false;
+        var div = undefined;
+        var div_fixed_width = undefined;
+        var timeout = undefined;
+        var div_onmouseover = false;
+        var first_coords = undefined;
+        var location_horizontal = 'right';
+        var location_vertical = 'bottom';
+        var shift_horizontal = 5;
+        var shift_vertical = -5;
+        if (topadvert_params['location_horizontal'] != undefined) {
+            location_horizontal = topadvert_params['location_horizontal'];
+        }
+        if (topadvert_params['location_vertical'] != undefined) {
+            location_vertical = topadvert_params['location_vertical'];
+        }
+        if (topadvert_params['shift_horizontal'] != undefined) {
+            shift_horizontal = parseInt(topadvert_params['shift_horizontal'] );
+        }
+        if (topadvert_params['shift_vertical'] != undefined) {
+            shift_vertical = parseInt(topadvert_params['shift_vertical']);
+        }
+        var slowCloseTimeout = 3000;
+        var fastCloseTimeout = 500;
+        if (isOld) {
+            adapter.setOpenHandler(function(coords){
+                openByCoords(coords);
+                if (adapter.hasMissedCloseEvent()) {
+                    closeByTimeout(slowCloseTimeout);
+                    adapter.delMissedCloseEvent();
+                }
+            });
+            adapter.setCloseHandler(function () {
+                if (div != undefined) {
+                    div.style.display = 'none';
+                }
+            });
+            adapter.setOpenActionHandler(function (coords) {
+                adapter.activate(true, coords);
+            });
+            adapter.setCloseActionHandler(function () {
+                closeByTimeout(fastCloseTimeout);
+            });
+            first_coords = adapter.getEventCoords();
+            if (first_coords && adapter.isActual()) {
+                adapter.activate(false, first_coords);
+            }
+        } else {
+            adapter.setCloseHandler(function () {
+                if (div != undefined) {
+                    div.style.display = 'none';
+                }
+            });
+            var activation_type = topadvert_params['activation_type'];
+            if (activation_type == null) {
+                activation_type = adapter.getEvent();
+            }
+            if (activation_type == 'click') {
+                adapter.setOpenHandler(function(coords){
+                    openByCoords(coords);
+                });
+                adapter.setLinkOnClickHandler(function (coords) {
+                    adapter.activate(true, coords);
+                });
+                adapter.setLinkOnMouseOverHandler(function (coords) {});
+                adapter.setLinkOnMouseOutHandler(function () {
+                    closeByTimeout(slowCloseTimeout);
+                });
+                first_coords = adapter.getLinkOnClickCoords();
+            } else {
+                adapter.setOpenHandler(function(coords){
+                    openByCoords(coords);
+                    if (!(adapter.linkIsMouseOver || div_onmouseover)) {
+                        closeByTimeout(fastCloseTimeout);
+                    }
+                });
+                adapter.setLinkOnClickHandler(function (coords) {});
+                adapter.setLinkOnMouseOverHandler(function (coords) {
+                    if (!adapter.isActive()) {
+                        adapter.activate(true, coords);
+                    }
+                });
+                adapter.setLinkOnMouseOutHandler(function () {
+                    closeByTimeout(fastCloseTimeout);
+                });
+                first_coords = adapter.getLinkMouseOverCoords();
+            }
+            if (first_coords && adapter.isActual()) {
+                adapter.activate(false, first_coords);
+            }
+        }
+    
+        function close () {
+            adapter.deactivate();
+        }
+    
+        function closeDelayed () {
+            if (div_onmouseover) {
+                return;
+            }
+            if (adapter.getLinkIsMouseOver) {
+                if (adapter.getLinkIsMouseOver()) {
+                    return;
+                }
+            }
+            close();
+        }
+    
+        function closeByTimeout (close_timeout) {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+            timeout = setTimeout(function(){
+                closeDelayed();
+            }, close_timeout);
+        }
+    
+        function openByCoords (coords) {
+            if (!coords) {
+                return;
+            }
+            if (!is_inited) {
+                is_inited = true;
+                var html = topadvert_draw(topadvert_feed, topadvert_params);
+                if (html == undefined) {
+                    html = topadvert_params['alt_text'];
+                }
+                if (html == undefined || html == '') {
+                    return;
+                }
+                var div_obj = topadvert_create_div();
+                div_obj.set_style('display', 'none');
+                div_obj.set_style('z-index', '1000000');
+                div_obj.set_style('position', 'absolute');
+                div_obj.set_style('background', 'white');
+                var div_in = topadvert_create_div();
+                div_in.set_style_sides('border', 'width', '1px');
+                div_in.set_style_sides('border', 'color', 'black');
+                var table = topadvert_create_table();
+                table.set_style('width', '1px');
+                var tr1 = topadvert_create_tr();
+                var td1 = topadvert_create_td();
+                td1.set_style('line-height', '0');
+                var td1_id = topadvert_get_random_id();
+                td1.set_attribute('id', td1_id);
+                td1.set_attribute('nowrap', 'true');
+                td1.set_attribute('align', 'right');
+                td1.set_style('text-align', 'right');
+                var img = topadvert_create_img();
+                img.set_style('width', '12px');
+                img.set_style('height', '12px');
+                img.set_attribute('src', 'http://' + topadvert_loader_domain + '/x.gif');
+                td1.append_child(img);
+                tr1.append_child(td1);
+                table.append_child(tr1);
+                var tr2 = topadvert_create_tr();
+                var td2 = topadvert_create_td();
+                td2.set_attribute('nowrap', 'true');
+                td2.set_style('padding-right', '12px');
+                td2.set_style('padding-bottom', '12px');
+                td2.set_style('padding-left', '12px');
+                td2.append_text(html);
+                tr2.append_child(td2);
+                table.append_child(tr2);
+                div_in.append_child(table);
+                div_obj.append_child(div_in);
+                div = div_obj.to_document_element();
+                div.onmouseover = function (e) {
+                    e = e ? e : window.event;
+                    div_onmouseover = true;
+                };
+                div.onmouseout = function (e) {
+                    e = e ? e : window.event;
+                    div_onmouseover = false;
+                    closeByTimeout(fastCloseTimeout);
+                };
+                div.innerHTML = div.innerHTML;
+                var body = document.getElementsByTagName('body')[0];
+                if (body == null) {
+                    var codeElement = adapter.getCodeElement();
+                    codeElement.parentNode.insertBefore(div, codeElement);
+                } else {
+                    body.insertBefore(div, body.firstChild);
+                }
+                var td1_onevent = topadvert_get_is_opera_lost_click_event() ? 'onmouseup' : 'onclick';
+                document.getElementById(td1_id)[td1_onevent] = function (e) {
+                    e = e ? e : window.event;
+                    close();
+                };
+            }
+            if (div != undefined && div.style.display == 'none') {
+                var c = [coords.x, coords.y];
+                if (c != null) {
+                    div.style.visibility = 'hidden';
+                    div.style.left = '0px';
+                    div.style.top = '0px';
+                    div.style.display = 'block';
+                    var leftScreenShift = div.getBoundingClientRect().left;
+                    var topScreenShift = div.getBoundingClientRect().top;
+                    var div_width = div_fixed_width;
+                    if (div_width == null) {
+                        div_width = div.offsetWidth;
+                        div_fixed_width = div_width;
+                    }
+                    div.style.width = div_width + 'px';
+                    var b = document.getElementsByTagName('body')[0];
+                    if (b != null) {
+                        var window_wh = topadvert_get_window_wh();
+                        var window_w = window_wh[0];
+                        var window_h = window_wh[1];
+                        var scroll_xy = topadvert_get_scroll_xy();
+                        var scroll_x = scroll_xy[0];
+                        var scroll_y = scroll_xy[1];
+                        var right_is_ok = c[0] + div_width + shift_horizontal <
+                            scroll_x + window_w;
+                        var left_is_ok = scroll_x + div_width + shift_horizontal < c[0];
+                        var bottom_is_ok = c[1] + div.offsetHeight + shift_vertical <
+                            scroll_y + window_h;
+                        var top_is_ok = scroll_y + div.offsetHeight + shift_vertical < c[1];
+                        var is_right = location_horizontal == 'right';
+                        if (is_right) {
+                            if (!right_is_ok && left_is_ok) {
+                                is_right = false;
+                            }
+                        } else {
+                            if (!left_is_ok && right_is_ok) {
+                                is_right = true;
+                            }
+                        }
+                        var left = c[0] - scroll_x - leftScreenShift;
+                        if (is_right) {
+                            left = left + shift_horizontal;
+                        } else {
+                            left = left - div_width - shift_horizontal;
+                        }
+                        var is_bottom = location_vertical == 'bottom';
+                        if (is_bottom) {
+                            if (!bottom_is_ok && top_is_ok) {
+                                is_bottom = false;
+                            }
+                        } else {
+                            if (!top_is_ok && bottom_is_ok) {
+                                is_bottom = true;
+                            }
+                        }
+                        var top = c[1] - scroll_y - topScreenShift;
+                        if (is_bottom) {
+                            top = top + shift_vertical;
+                        } else {
+                            top = top - div.offsetHeight - shift_vertical;
+                        }
+                        div.style.left = left + 'px';
+                        div.style.top = top + 'px';
+                    }
+                    div.style.display = 'none';
+                    div.style.visibility = 'visible';
+                    div.style.width = div_width + 'px';
+                }
+                div.style.display = 'block';
+            }
+        }
+        
+        function topadvert_get_is_opera_lost_click_event () {
+            return window.opera != null && window.opera.version != null && window.opera.version() > 9.27;
+        }
+        
+        function topadvert_get_window_wh() {
+            var w = 0, h = 0;
+            if( typeof( window.innerWidth ) == 'number' ) {
+                //Non-IE
+                w = window.innerWidth;
+                h = window.innerHeight;
+            } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                //IE 6+ in 'standards compliant mode'
+                w = document.documentElement.clientWidth;
+                h = document.documentElement.clientHeight;
+            } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                //IE 4 compatible
+                w = document.body.clientWidth;
+                h = document.body.clientHeight;
+            }
+            return [w, h];
+        }
+        
+        function topadvert_get_scroll_xy() {
+            var x = 0;
+            var y = 0;
+            if (window.pageXOffset != null && window.pageYOffset != null) {
+                x = parseInt(window.pageXOffset);
+                y = parseInt(window.pageYOffset);
+            } else if (document.body != null
+                    && (document.body.scrollLeft || document.body.scrollTop)
+                    ) {
+                x = parseInt(document.body.scrollLeft);
+                y = parseInt(document.body.scrollTop);
+            } else if (document.documentElement != null
+                    && (document.documentElement.scrollLeft || document.documentElement.scrollTop)
+                    ) {
+                x = parseInt(document.documentElement.scrollLeft);
+                y = parseInt(document.documentElement.scrollTop);
+            }
+            return [x, y];
+        }
+
+        function topadvert_get_random_id(){
+            return ('topadvert_' + Math.random()).replace( /0?\./g, '' );
+        }
+    }
+})();
+
+                        }
+                    });
+                
