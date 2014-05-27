@@ -1,0 +1,89 @@
+BODY {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 20px;
+    font-family: Tahoma, Geneva, Arial, Helvetica, sans-srif;
+}
+
+TABLE {
+    border: 1px solid darkgrey;
+    border-spacing: 0;
+    border-right: 0;
+    border-bottom: 0;
+    empty-cells: show;
+}
+
+TH {
+    border-right: 1px solid darkgrey;
+    border-bottom: 1px solid darkgrey;
+    background-color: #fafafa;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+TD {
+    border-right: 1px solid darkgrey;
+    border-bottom: 1px solid darkgrey;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+H1, H1 > P {
+    text-align: center;
+    font-size: x-large;
+}
+
+H2, H2 > P {
+    text-align: center;
+    font-size: large;
+}
+
+P {
+    text-indent: 4ex;
+    text-align: justify;
+    margin: 3px;
+}
+
+.epigraph DIV {
+    text-align: right;
+    margin-right: 50px;
+    font-style: italic;
+    font-size: small;
+}
+
+.cite P {
+    text-align: center;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+}
+
+.stanza {
+    margin: 1em;
+}
+
+.bookfooter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    background-color: white;
+    color: black;
+    border-bottom: 1px solid green;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 12px;
+}
+
+.hbooktitle {
+    font-size: 4px;
+    display: none;
+}
+
+.bookfooter A {
+    text-decoration: none;
+}
